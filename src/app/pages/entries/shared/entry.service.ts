@@ -22,7 +22,7 @@ export class EntryService {
     return this.http.get<Entry>(`${this.apiPath}/${id}`);
   }
 
-  create(entry: Entry): Observable<Entry> {
+  create(entry: Entry): Observable<any> {
     return this.http.post(`${this.apiPath}`, entry);
   }
 
