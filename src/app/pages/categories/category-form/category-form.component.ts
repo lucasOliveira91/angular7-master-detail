@@ -37,6 +37,54 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
     this.setPageTitle();
   }
 
+  submitForm() {
+    this.submittingForm = true;
+
+    if (this.currentAction !== 'edit') {
+      this.createCategory();
+      return;
+    }
+    
+    this.updateCategory();
+  }
+  
+  private createCategory() {
+    const category: Category = Object.assign(new Category, this.categoryForm.value);
+    this.categoryService.create(category).subscribe(
+      category => this.acttionForSuccess(category),
+      error => this.actionsForError(error)
+    );
+  }
+
+  private updateCategory() {
+    const category: Category = Object.assign(new Category, this.categoryForm.value);
+    this.categoryService.update(category).subscribe(
+      category => this.acttionForSuccess(category),
+      error => this.actionsForError(error)
+    );
+  }
+  
+  private acttionForSuccess(category: Category) {
+    // toastr.success('Solicitação processada com sucesso.');
+
+    //It doen't add to navigate history
+    this.router.navigateByUrl('categories', { skipLocationChange: true }).then(() => {
+      this.router.navigate([`categories`, category.id, 'edit']);
+    });
+  }
+
+  private actionsForError(error) {
+    toastr.error(`Error em sua solicitação. ${error}`)
+    this.submittingForm = false;
+
+    if(error.status === '422') {
+      this.serverErrorMessages = JSON.parse(error._body).erros;
+    }else {
+      this.serverErrorMessages = ['Falha na comunicação.'];
+    }
+  }
+
+
   private setCurrentAction() {
     if (this.route.snapshot.url[0].path !== 'new') {
       this.currentAction = 'edit'
@@ -61,7 +109,7 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
   }
 
   private setPageTitle() {
-    if(this.currentAction === `edit` && this.category){
+    if (this.currentAction === 'edit' && this.category) {
       this.pageTitle = `Edição de Categoria ${this.category.name}`;
     }
   }
