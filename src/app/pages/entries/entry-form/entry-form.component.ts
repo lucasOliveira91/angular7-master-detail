@@ -19,6 +19,18 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   serverErrorMessages: string[] = null;
   submittingForm: boolean = false;
   entry: Entry;
+  imaskConfig = {
+    mask: Number,
+    scale: 2,
+    thousandsSeparator: '.',
+    padFractionalZeros: true,
+    normalizeZeros: true,
+    radix: ','
+  };
+
+  ptBr = {
+    firstDayOfWeek: 0,
+  }
 
   constructor(
     private fb: FormBuilder,
