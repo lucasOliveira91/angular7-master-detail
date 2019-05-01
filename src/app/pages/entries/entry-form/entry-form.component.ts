@@ -5,6 +5,8 @@ import { EntryService } from '../shared/entry.service';
 import { toastr } from 'toastr';
 import { Entry } from '../shared/entry.model';
 import { switchMap } from 'rxjs/operators';
+import { Category } from '../../categories/shared/category.model';
+import { CategoryService } from '../../categories/shared/category.service';
 
 @Component({
   selector: 'app-entry-form',
@@ -27,22 +29,21 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
     normalizeZeros: true,
     radix: ','
   };
-
-  ptBr = {
-    firstDayOfWeek: 0,
-  }
+  categories: Category[];
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private entryService: EntryService
+    private entryService: EntryService,
+    private categoryService: CategoryService
   ) { }
 
   ngOnInit() {
     this.setCurrentAction();
     this.buildEntryForm();
     this.loadEntry();
+    this.loadCategories();
   }
 
   ngAfterContentChecked() {
@@ -57,6 +58,16 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
     }
     
     this.updateEntry();
+  }
+
+  get typeOptions(): Array<any> {
+    return Object.entries(Entry.types).map((value, text) => {
+      console.log(value, text)
+      return {
+        text: text,
+        value: value
+      }
+    });
   }
   
   private createEntry() {
@@ -124,6 +135,12 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
         this.entryForm.patchValue(this.entry);
       }, error => alert('Ocorreu um erro'));
     }
+  }
+
+  private loadCategories() {
+    this.categoryService.getAll().subscribe(categories => {
+      this.categories = categories;
+    })
   }
 
   private setPageTitle() {
