@@ -56,13 +56,12 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       this.createEntry();
       return;
     }
-    
+
     this.updateEntry();
   }
 
   get typeOptions(): Array<any> {
     return Object.entries(Entry.types).map((value, text) => {
-      console.log(value, text)
       return {
         text: text,
         value: value
@@ -89,7 +88,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   
   private acttionForSuccess(entry: Entry) {
     console.log('entidade', entry)
-    // toastr.success('Solicitação processada com sucesso.');
+    toastr.success('Solicitação processada com sucesso.');
 
     //It doen't add to navigate history
     this.router.navigateByUrl('entries', { skipLocationChange: true }).then(() => {

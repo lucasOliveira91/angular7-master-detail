@@ -16,20 +16,17 @@ export class EntryService extends BaseResourceService<Entry>{
   ) { super('api/entries', injector) }
 
   create(entry: Entry): Observable<any> {
-    return this.categoryService.getById(entry.categoryId).pipe(
-      flatMap(category => {
+    return this.categoryService.getById(entry.categoryId).pipe(flatMap(category => {
         entry.category = category;
-
         return super.create(entry);
       })
     );
   }
 
   update(entry: Entry): Observable<Entry> {
-    return this.categoryService.getById(entry.categoryId).pipe(
-      flatMap(category => {
+    return this.categoryService.getById(entry.categoryId).pipe(flatMap(category => {
         entry.category = category;
-        return this.update(entry);
+        return super.update(entry);
       })
     );
   }
