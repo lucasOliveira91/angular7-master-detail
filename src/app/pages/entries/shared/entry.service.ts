@@ -1,29 +1,19 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Entry } from './entry.model';
 import { flatMap, map } from 'rxjs/operators';
 import { CategoryService } from '../../categories/shared/category.service';
+import { BaseResourceService } from '../../../shared/services/base-resource.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EntryService {
-
-  private apiPath: string = 'api/entries'
+export class EntryService extends BaseResourceService<Entry>{
 
   constructor(
-    private http: HttpClient,
+    protected injector: Injector,
     private categoryService: CategoryService
-  ) { }
-
-  getAll(): Observable<Entry[]> {
-    return this.http.get<Entry[]>(`${this.apiPath}`)
-  }
-
-  getById(id: number): Observable<Entry> {
-    return this.http.get<Entry>(`${this.apiPath}/${id}`);
-  }
+  ) { super('api/entries', injector) }
 
   create(entry: Entry): Observable<any> {
     return this.categoryService.getById(entry.categoryId).pipe(
@@ -44,9 +34,5 @@ export class EntryService {
         );
       })
     );
-  }
-
-  delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiPath}/${id}`);
   }
 }
