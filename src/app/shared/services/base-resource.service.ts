@@ -2,6 +2,7 @@ import { BaseResourceModel } from '../models/base-resource.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injector } from '@angular/core';
+import { tap } from 'rxjs/operators';
 
 export abstract class BaseResourceService<T extends BaseResourceModel> {
 
@@ -27,7 +28,9 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
     }
 
     update(resource: T): Observable<any> {
-        return this.http.put(`${this.apiPath}/${resource.id}`, resource);
+        return this.http.put(`${this.apiPath}/${resource.id}`, resource).pipe(
+            tap(() => resource)
+        );
     }
 
     delete(id: number): Observable<any> {
