@@ -87,8 +87,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   }
   
   private acttionForSuccess(entry: Entry) {
-    console.log('entidade', entry)
-    toastr.success('Solicitação processada com sucesso.');
+    // toastr.success('Solicitação processada com sucesso.');
 
     //It doen't add to navigate history
     this.router.navigateByUrl('entries', { skipLocationChange: true }).then(() => {
@@ -97,7 +96,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   }
 
   private actionsForError(error) {
-    toastr.error(`Error em sua solicitação. ${error}`)
+    // toastr.error(`Error em sua solicitação. ${error}`)
     this.submittingForm = false;
 
     if(error.status === '422') {
