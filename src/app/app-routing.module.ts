@@ -13,7 +13,13 @@ const routes: Routes = [
   {
     path: 'categories',
     loadChildren: './pages/categories/categories.module#CategoriesModule'
-  }
+  },
+
+  {
+    path: '',
+    redirectTo: '/reports',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({
