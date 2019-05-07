@@ -50,21 +50,21 @@
 <div class="card-deck mt-5 mb-5">
   <div class="card text-center text-white bg-success">
     <div class="card-header">
-      Total Revenew
+      Total Revenue
     </div>
     <div class="card-body">
       <h3 class="card-title">
-        1000
+        {{revenueTotal}}
       </h3>
     </div>
   </div>
   <div class="card text-center text-white bg-danger">
     <div class="card-header">
-      Total Desp
+      Total Expense
     </div>
     <div class="card-body">
       <h3 class="card-title">
-        1000
+        {{expenseTotal}}
       </h3>
     </div>
   </div>
@@ -74,7 +74,7 @@
     </div>
     <div class="card-body">
       <h3 class="card-title">
-        1000
+        {{balance}}
       </h3>
     </div>
   </div>
@@ -83,9 +83,9 @@
 
 <div class="row mt-5 mb-4">
   <div class="col-md-6">
-    Chart rev
+    <p-chart type="bar" [data]="revenueChartData" [options]="chartOptions"></p-chart>
   </div>
   <div class="col-md-6">
-    Chart Desp
+    <p-chart type="bar" [data]="expenseChartData" [options]="chartOptions"></p-chart>
   </div>
 </div>
